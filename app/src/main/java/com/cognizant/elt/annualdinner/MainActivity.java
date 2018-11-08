@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Response;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -23,6 +26,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity{
 
     ImageView smallPotato;
+    EditText username;
+    EditText password;
     Button loginButton;
 
     @Override
@@ -31,7 +36,10 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         smallPotato = (ImageView) findViewById(R.id.small_potato);
+        username = findViewById(R.id.username);
+        password = findViewById(R.id.password);
         loginButton = (Button) findViewById(R.id.loginButton);
+
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -44,8 +52,25 @@ public class MainActivity extends AppCompatActivity{
                             public void onResponse(String response) {
                                 // response
                                 Log.d("Response", response);
-                                Intent i = new Intent(MainActivity.this, QRScan.class);
-                                startActivity(i);
+                                JSONObject reader = null;
+                                try {
+                                    reader = new JSONObject(response);
+                                    String isSuccess = reader.getString("success");
+                                    if (isSuccess.equals("true")){
+                                        String token = reader.getString("token");
+                                        Intent i = new Intent(MainActivity.this, QRScan.class);
+                                        i.putExtra("token", token);
+                                        startActivity(i);
+                                    } else {
+                                        Toast toast = Toast.makeText(getApplicationContext(),
+                                                "Incorrect username or password",
+                                                Toast.LENGTH_SHORT);
+                                        toast.show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
                             }
                         },
                         new com.android.volley.Response.ErrorListener()
@@ -54,6 +79,10 @@ public class MainActivity extends AppCompatActivity{
                             public void onErrorResponse(VolleyError error) {
                                 // error
                                 Log.d("Error.Response", error.toString());
+                                Toast toast = Toast.makeText(getApplicationContext(),
+                                        "Login Fail",
+                                        Toast.LENGTH_SHORT);
+                                toast.show();
                             }
                         }
                 ) {
@@ -61,8 +90,8 @@ public class MainActivity extends AppCompatActivity{
                     protected Map<String, String> getParams()
                     {
                         Map<String, String>  params = new HashMap<String, String>();
-                        params.put("username", "test");
-                        params.put("password", "test");
+                        params.put("username", username.getText().toString());
+                        params.put("password", password.getText().toString());
 
                         return params;
                     }
