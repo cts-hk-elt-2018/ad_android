@@ -10,6 +10,9 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +40,10 @@ public class QRScan extends AppCompatActivity {
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     String textData = "";
+    Switch checkin;
     String token;
+    int cam_wid;
+    int cam_hei;
 
 
     @Override
@@ -49,11 +55,29 @@ public class QRScan extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         token = bundle.getString("token");
+
+        checkin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (checkin.isChecked()){
+                    //check in again
+                } else {
+                    //delete check-in
+                }
+            }
+        });
     }
 
     private void initViews() {
         txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
+        checkin = findViewById(R.id.checkinswitch);
         surfaceView = findViewById(R.id.surfaceView);
+
+        cam_wid = getResources().getDisplayMetrics().widthPixels*3/4;
+        cam_hei=getResources().getDisplayMetrics().heightPixels*3/4;
+//        surfaceView.getHolder().setFixedSize(cam_wid,cam_hei);
+
+
     }
 
     private void initialiseDetectorsAndSources() {
@@ -65,7 +89,7 @@ public class QRScan extends AppCompatActivity {
                 .build();
 
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(960, 540)
+                .setRequestedPreviewSize(cam_hei, cam_wid)
                 .setAutoFocusEnabled(true) //you should add this feature
                 .build();
 
@@ -119,7 +143,7 @@ public class QRScan extends AppCompatActivity {
                                 txtBarcodeValue.removeCallbacks(null);
                                 textData = barcodes.valueAt(0).displayValue;
                                 txtBarcodeValue.setText(textData);
-                                cameraSource.stop();
+                                //cameraSource.stop();
 
 
                                 RequestQueue queue = Volley.newRequestQueue(QRScan.this);
@@ -139,6 +163,8 @@ public class QRScan extends AppCompatActivity {
                                                         String username = reader.getString("username");
                                                         String display = name+"\n"+username;
                                                         txtBarcodeValue.setText(display);
+                                                        checkin.setChecked(true);
+                                                        checkin.setVisibility(View.VISIBLE);
                                                     } else {
                                                         Toast toast = Toast.makeText(getApplicationContext(),
                                                                 "Incorrect username or password",

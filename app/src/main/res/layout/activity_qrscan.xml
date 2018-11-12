@@ -15,8 +15,11 @@
 
         <SurfaceView
             android:id="@+id/surfaceView"
-            android:layout_width="540px"
-            android:layout_height="960px"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20px"
+            android:layout_marginBottom="300px"
+            android:layout_marginTop="20px"
             android:layout_centerHorizontal="true" />
 
         <TextView
@@ -28,6 +31,14 @@
             android:textSize="20sp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/surfaceView"/>
+
+        <Switch
+            android:id="@+id/checkinswitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtBarcodeValue"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 
