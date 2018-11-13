@@ -63,7 +63,7 @@ public class QRScan extends AppCompatActivity {
                     //check in again
                     CheckInHTTP();
                 } else {
-                    //delete check-in
+                    //delete check-in record
                     DelCheckInHTTP();
                 }
             }
