@@ -61,8 +61,10 @@ public class QRScan extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (checkin.isChecked()){
                     //check in again
+                    CheckInHTTP();
                 } else {
                     //delete check-in
+                    DelCheckInHTTP();
                 }
             }
         });
@@ -145,60 +147,10 @@ public class QRScan extends AppCompatActivity {
                                 txtBarcodeValue.setText(textData);
                                 //cameraSource.stop();
 
-
-                                RequestQueue queue = Volley.newRequestQueue(QRScan.this);
-                                String url = "http://ad-backend.fqs3taypzi.ap-southeast-1.elasticbeanstalk.com/api/checkin/1/"+textData;
-                                StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                                        new com.android.volley.Response.Listener<String>() {
-                                            @Override
-                                            public void onResponse(String response) {
-                                                // response
-                                                Log.d("Response", response);
-                                                JSONObject reader = null;
-                                                try {
-                                                    reader = new JSONObject(response);
-                                                    String isSuccess = reader.getString("success");
-                                                    if (isSuccess.equals("true")) {
-                                                        String name = reader.getString("name");
-                                                        String username = reader.getString("username");
-                                                        String display = name+"\n"+username;
-                                                        txtBarcodeValue.setText(display);
-                                                        checkin.setChecked(true);
-                                                        checkin.setVisibility(View.VISIBLE);
-                                                    } else {
-                                                        Toast toast = Toast.makeText(getApplicationContext(),
-                                                                "Incorrect username or password",
-                                                                Toast.LENGTH_SHORT);
-                                                        toast.show();
-                                                    }
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                            }
-                                        },
-                                        new com.android.volley.Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                // error
-                                                Log.d("Error.Response", error.toString());
-                                                Toast toast = Toast.makeText(getApplicationContext(),
-                                                        "Could not get server response",
-                                                        Toast.LENGTH_SHORT);
-                                                toast.show();
-                                            }
-                                        }
-                                ) {
-                                    @Override
-                                    public Map<String, String> getHeaders()
-                                    {
-                                        Map<String, String>  params = new HashMap<String, String>();
-                                        params.put("Authorization", token);
-
-                                        return params;
-                                    }
-                                };
-                                queue.add(postRequest);
+                                String display = CheckInHTTP();
+                                txtBarcodeValue.setText(display);
+                                checkin.setChecked(true);
+                                checkin.setVisibility(View.VISIBLE);
                             } else {
                                 //barcode value is null
                             }
@@ -208,6 +160,118 @@ public class QRScan extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private String CheckInHTTP() {
+        final String[] result = new String[1];
+
+        RequestQueue queue = Volley.newRequestQueue(QRScan.this);
+        String url = "http://ad-backend.fqs3taypzi.ap-southeast-1.elasticbeanstalk.com/api/checkin/1/"+textData;
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+                        JSONObject reader = null;
+                        try {
+                            reader = new JSONObject(response);
+                            String isSuccess = reader.getString("success");
+                            if (isSuccess.equals("true")) {
+                                String name = reader.getString("name");
+                                String username = reader.getString("username");
+                                result[0] = new String(name+"\n"+username);
+                            } else {
+                                Toast toast = Toast.makeText(getApplicationContext(),
+                                        "Incorrect username or password",
+                                        Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Could not get server response",
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", token);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+        return result[0];
+    }
+
+    private String DelCheckInHTTP() {
+        final String[] result = new String[1];
+
+        RequestQueue queue = Volley.newRequestQueue(QRScan.this);
+        String url = "http://ad-backend.fqs3taypzi.ap-southeast-1.elasticbeanstalk.com/api/checkin/1/"+textData;
+        StringRequest postRequest = new StringRequest(Request.Method.DELETE, url,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d("Response", response);
+                        JSONObject reader = null;
+                        try {
+                            reader = new JSONObject(response);
+                            String isSuccess = reader.getString("success");
+                            if (isSuccess.equals("true")) {
+                                String name = reader.getString("name");
+                                String username = reader.getString("username");
+                                result[0] = new String(name+"\n"+username);
+                            } else {
+                                Toast toast = Toast.makeText(getApplicationContext(),
+                                        "Incorrect username or password",
+                                        Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", error.toString());
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Could not get server response",
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", token);
+
+                return params;
+            }
+        };
+        queue.add(postRequest);
+        return result[0];
     }
 
 
