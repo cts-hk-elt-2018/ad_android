@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/small_potato"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:src="@drawable/smallpotato76x762x"
             android:layout_centerHorizontal="true"
             />

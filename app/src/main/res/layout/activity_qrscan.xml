@@ -6,42 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".QRScan">
 
+
     <RelativeLayout
         android:id="@+id/mainbox"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            app:srcCompat="@drawable/searchbutton"
+            android:background="@android:color/buttonBg"
+            />
+
+        <EditText
+            android:id="@+id/search_id"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_toLeftOf="@id/imageButton2"
+            android:inputType="number"
+            android:textColor="@android:color/black"/>
 
         <SurfaceView
             android:id="@+id/surfaceView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20px"
-            android:layout_marginBottom="300px"
-            android:layout_marginTop="20px"
-            android:layout_centerHorizontal="true" />
+            android:layout_width="768px"
+            android:layout_height="960px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/search_id"/>
 
         <TextView
             android:id="@+id/txtBarcodeValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/surfaceView"
+            android:layout_centerHorizontal="true"
             android:text="No Value"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/surfaceView"/>
+            android:textSize="20dp" />
 
         <Switch
             android:id="@+id/checkinswitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/txtBarcodeValue"
-            android:visibility="invisible"/>
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible" />
 
     </RelativeLayout>
-
 
 
 </android.support.constraint.ConstraintLayout>

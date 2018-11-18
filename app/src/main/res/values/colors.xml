@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#304476</color>
     <color name="colorPrimaryDark">#304476</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#696969</color>
     <color name="loginPageColor">#304476</color>
+    <color name="buttonBg">#D0D0D0</color>
 </resources>

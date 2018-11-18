@@ -1,7 +1,6 @@
 package com.cognizant.elt.annualdinner;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +11,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +37,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class QRScan extends AppCompatActivity {
+    RelativeLayout mainbox;
+    EditText searchID;
+    ImageButton searchBtn;
     SurfaceView surfaceView;
     TextView txtBarcodeValue;
     private BarcodeDetector barcodeDetector;
@@ -42,8 +48,8 @@ public class QRScan extends AppCompatActivity {
     String textData = "";
     Switch checkin;
     String token;
-    int cam_wid;
-    int cam_hei;
+//    int cam_wid;
+//    int cam_hei;
 
 
     @Override
@@ -68,15 +74,30 @@ public class QRScan extends AppCompatActivity {
                 }
             }
         });
+
+        searchBtn = (ImageButton) mainbox.findViewById(R.id.imageButton2);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textData = String.valueOf(searchID.getText());
+                CheckInHTTP();
+                checkin.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void initViews() {
+        mainbox = findViewById(R.id.mainbox);
+
+        searchID = findViewById(R.id.search_id);
+
+
         txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
         checkin = findViewById(R.id.checkinswitch);
         surfaceView = findViewById(R.id.surfaceView);
 
-        cam_wid = getResources().getDisplayMetrics().widthPixels*3/4;
-        cam_hei=getResources().getDisplayMetrics().heightPixels*3/4;
+//        cam_wid = getResources().getDisplayMetrics().widthPixels*3/4;
+//        cam_hei=getResources().getDisplayMetrics().heightPixels*3/4;
 //        surfaceView.getHolder().setFixedSize(cam_wid,cam_hei);
 
 
@@ -84,14 +105,14 @@ public class QRScan extends AppCompatActivity {
 
     private void initialiseDetectorsAndSources() {
 
-        Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
 
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
 
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(cam_hei, cam_wid)
+                .setRequestedPreviewSize(1280, 960)
                 .setAutoFocusEnabled(true) //you should add this feature
                 .build();
 
@@ -127,7 +148,7 @@ public class QRScan extends AppCompatActivity {
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -144,11 +165,11 @@ public class QRScan extends AppCompatActivity {
                             if (barcodes.valueAt(0).displayValue != null) {
                                 txtBarcodeValue.removeCallbacks(null);
                                 textData = barcodes.valueAt(0).displayValue;
-                                txtBarcodeValue.setText(textData);
-                                //cameraSource.stop();
+//                                txtBarcodeValue.setText(textData);
+                                cameraSource.stop();
 
-                                String display = CheckInHTTP();
-                                txtBarcodeValue.setText(display);
+                                CheckInHTTP();
+//                                txtBarcodeValue.setText(result);
                                 checkin.setChecked(true);
                                 checkin.setVisibility(View.VISIBLE);
                             } else {
@@ -162,8 +183,8 @@ public class QRScan extends AppCompatActivity {
         });
     }
 
-    private String CheckInHTTP() {
-        final String[] result = new String[1];
+    private void CheckInHTTP() {
+//        final String[] result = new String[1];
 
         RequestQueue queue = Volley.newRequestQueue(QRScan.this);
         String url = "http://ad-backend.fqs3taypzi.ap-southeast-1.elasticbeanstalk.com/api/checkin/1/"+textData;
@@ -180,7 +201,8 @@ public class QRScan extends AppCompatActivity {
                             if (isSuccess.equals("true")) {
                                 String name = reader.getString("name");
                                 String username = reader.getString("username");
-                                result[0] = new String(name+"\n"+username);
+//                                result = new String(name+"\n"+username);
+                                txtBarcodeValue.setText(name+"\n"+username);
                             } else {
                                 Toast toast = Toast.makeText(getApplicationContext(),
                                         "Incorrect username or password",
@@ -215,11 +237,11 @@ public class QRScan extends AppCompatActivity {
             }
         };
         queue.add(postRequest);
-        return result[0];
+//        return result[0];
     }
 
-    private String DelCheckInHTTP() {
-        final String[] result = new String[1];
+    private void DelCheckInHTTP() {
+//        final String[] result = new String[1];
 
         RequestQueue queue = Volley.newRequestQueue(QRScan.this);
         String url = "http://ad-backend.fqs3taypzi.ap-southeast-1.elasticbeanstalk.com/api/checkin/1/"+textData;
@@ -236,7 +258,8 @@ public class QRScan extends AppCompatActivity {
                             if (isSuccess.equals("true")) {
                                 String name = reader.getString("name");
                                 String username = reader.getString("username");
-                                result[0] = new String(name+"\n"+username);
+//                                result[0] = new String(name+"\n"+username);
+                                txtBarcodeValue.setText(name+"\n"+username);
                             } else {
                                 Toast toast = Toast.makeText(getApplicationContext(),
                                         "Incorrect username or password",
@@ -271,7 +294,7 @@ public class QRScan extends AppCompatActivity {
             }
         };
         queue.add(postRequest);
-        return result[0];
+//        return result[0];
     }
 
 
@@ -286,4 +309,10 @@ public class QRScan extends AppCompatActivity {
         super.onResume();
         initialiseDetectorsAndSources();
     }
+
+    public void clickSearch(View view) {
+        textData = searchID.getText().toString();
+        CheckInHTTP();
+    }
+
 }
