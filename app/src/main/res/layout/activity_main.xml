@@ -8,17 +8,28 @@
     android:background="@color/loginPageColor">
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="134dp"
+            android:layout_height="39dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/Logo" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/mainbox"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        >
+        android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/small_potato"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:src="@drawable/smallpotato76x762x"
+            android:src="@drawable/smallpotato76x76x"
             android:layout_centerHorizontal="true"
             />
 

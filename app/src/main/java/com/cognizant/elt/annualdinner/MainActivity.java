@@ -25,6 +25,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity{
 
+    ImageView Logo;
     ImageView smallPotato;
     EditText username;
     EditText password;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Logo = (ImageView) findViewById(R.id.logo);
         smallPotato = (ImageView) findViewById(R.id.small_potato);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
