@@ -20,7 +20,6 @@
             android:layout_height="42dp"
             android:layout_alignParentRight="true"
             app:srcCompat="@drawable/searchbutton"
-            android:background="@android:color/buttonBg"
             />
 
         <EditText

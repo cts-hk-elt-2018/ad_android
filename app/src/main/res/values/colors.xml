@@ -2,7 +2,10 @@
 <resources>
     <color name="colorPrimary">#304476</color>
     <color name="colorPrimaryDark">#0033A1</color>
-    <color name="colorAccent">#696969</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#c8e8ff</color>
+    <color name="colorAccent2">#696969</color>
     <color name="loginPageColor">#0033A1</color>
-    <color name="buttonBg">#D0D0D0</color>
+    <color name="buttonbg">#D0D0D0</color>
 </resources>
