@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_checkin"
+        android:icon="@drawable/ic_menu_edit"
+        android:title="@string/title_checkin" />
+
+    <item
+        android:id="@+id/navigation_game"
+        android:icon="@drawable/ic_game_boy_24"
+        android:title="@string/title_game" />
+
+    <item
+        android:id="@+id/navigation_effect"
+        android:icon="@drawable/ic_effects_24"
+        android:title="@string/title_effect" />
+
+</menu>

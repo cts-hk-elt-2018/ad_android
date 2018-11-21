@@ -58,7 +58,9 @@ public class MainActivity extends AppCompatActivity{
                                 try {
                                     reader = new JSONObject(response);
                                     String isSuccess = reader.getString("success");
+//                                    String isSuccess = "true";
                                     if (isSuccess.equals("true")){
+//                                    if (true){
                                         String token = reader.getString("token");
                                         Intent i = new Intent(MainActivity.this, QRScan.class);
                                         i.putExtra("token", token);
@@ -85,6 +87,8 @@ public class MainActivity extends AppCompatActivity{
                                         "Login Fail",
                                         Toast.LENGTH_SHORT);
                                 toast.show();
+                                Intent i = new Intent(MainActivity.this, TabActivity.class);
+                                startActivity(i);
                             }
                         }
                 ) {

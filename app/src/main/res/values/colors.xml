@@ -8,4 +8,5 @@
     <color name="colorAccent2">#696969</color>
     <color name="loginPageColor">#0033A1</color>
     <color name="buttonbg">#D0D0D0</color>
+    <color name="white">#FFFFFF</color>
 </resources>
