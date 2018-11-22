@@ -99,8 +99,6 @@ public class QRScan extends AppCompatActivity {
 //        cam_wid = getResources().getDisplayMetrics().widthPixels*3/4;
 //        cam_hei=getResources().getDisplayMetrics().heightPixels*3/4;
 //        surfaceView.getHolder().setFixedSize(cam_wid,cam_hei);
-
-
     }
 
     private void initialiseDetectorsAndSources() {
@@ -308,11 +306,6 @@ public class QRScan extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         initialiseDetectorsAndSources();
-    }
-
-    public void clickSearch(View view) {
-        textData = searchID.getText().toString();
-        CheckInHTTP();
     }
 
 }

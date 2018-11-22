@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity{
                                         Toast.LENGTH_SHORT);
                                 toast.show();
                                 Intent i = new Intent(MainActivity.this, TabActivity.class);
+                                i.putExtra("token", "null");
                                 startActivity(i);
                             }
                         }
